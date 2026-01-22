@@ -74,6 +74,7 @@ blockContainer.addEventListener('click', (e) => {
 
 addBar.addEventListener('click', (e) => {
     const bars = document.querySelectorAll('.one-unit:not(.add-unit)');
+    all = document.querySelectorAll('.one-unit:not(.add-unit)')
     if (bars.length > 0) {
         const lastBar = bars[bars.length - 1];
         const newBar = lastBar.cloneNode(true);
@@ -96,40 +97,106 @@ moveHandler.addEventListener('mouseup', (event) => {
 
 
 let blockMovable = false;
-let blockStartPos = {x: 0, y: 0 }
-let blockCurPos = {x: 0, y: 0 }
+let currentDraggingBlock = null;
+let blockStartPos = {x: 0, y: 0 };
+let blockCurPos = {x: 0, y: 0 };
 let blockGap = 16;
+let targetIndex = 0;
+let currentIndex = 0;
+let blockWidth = 0;
+let moveStep = 0;
+let all = document.querySelectorAll('.one-unit:not(.add-unit)');
 
 const handleBlocksMove = (e) => {
-    if (blockMovable) {
+    if (blockMovable && currentDraggingBlock) {
         const movX = e.clientX - blockStartPos.x; 
         const movY = e.clientY - blockStartPos.y;
 
         blockCurPos.x += movX;
         blockCurPos.y += movY;
-        console.log(blockCurPos);
 
-        e.currentTarget.style.transform = `translate(${blockCurPos.x}px, ${blockCurPos.y}px)`;
+        // 只更新视觉位置，不进行DOM重排
+        currentDraggingBlock.style.transform = `translate(${blockCurPos.x}px, ${blockCurPos.y}px)`;
 
         blockStartPos.x = e.clientX;
         blockStartPos.y = e.clientY;
     }
 };
 
+const handleMouseUp = () => {
+    if (blockMovable && currentDraggingBlock) {
+        moveStep = parseInt(blockCurPos.x / blockWidth);
+        targetIndex = currentIndex + moveStep;
+        
+        // 限制索引范围
+        targetIndex = Math.max(0, Math.min(targetIndex, all.length - 1));
+        
+        if (targetIndex !== currentIndex) {
+            const targetElement = all[targetIndex];
+            
+            if (moveStep > 0) {
+                if (targetElement.nextElementSibling) {
+                    currentDraggingBlock.parentNode.insertBefore(
+                        currentDraggingBlock, 
+                        targetElement.nextElementSibling
+                    );
+                } else {
+                    currentDraggingBlock.parentNode.appendChild(currentDraggingBlock);
+                }
+            } else {
+                currentDraggingBlock.parentNode.insertBefore(currentDraggingBlock, targetElement);
+            }
+            
+            all = document.querySelectorAll('.one-unit:not(.add-unit)');
+            currentIndex = targetIndex;
+        }
+        
+        // 重置transform
+        currentDraggingBlock.style.transform = 'translate(0px, 0px)';
+        blockCurPos.x = 0;
+        blockCurPos.y = 0;
+        
+        // 恢复样式
+        currentDraggingBlock.style.transition = 'transform 0.2s ease';
+        currentDraggingBlock.style.zIndex = '1';
+        
+        blockMovable = false;
+        currentDraggingBlock = null;
+    }
+};
+
 // 子元素移动
-blockContainer.addEventListener('mousedown', (event) => {
-    const target = event.target.closest('.one-unit');
-    if(!target) return;
-    else {
+blockContainer.addEventListener('mousedown', (e) => {
+    if(e.target?.matches('.one-unit:not(.add-unit)')){
         blockMovable = true;
-        blockStartPos = {x: event.clientX, y: event.clientY};
+        currentDraggingBlock = e.target;
+        blockWidth = currentDraggingBlock.getBoundingClientRect().width;
+
+        // 查找当前索引
+        all.forEach((item, index) => {
+            if (item === currentDraggingBlock) {
+                currentIndex = index;
+                targetIndex = index;
+            }
+        });
+
+        // 重置位置
+        blockCurPos.x = 0;
+        blockCurPos.y = 0;
+        
+        blockStartPos.x = e.clientX;
+        blockStartPos.y = e.clientY;
+        
+        e.preventDefault();
+        currentDraggingBlock.style.transition = 'none';
+        currentDraggingBlock.style.zIndex = '10';
     }
 });
 
-document,addEventListener('mousemove',handleBlocksMove);
+document.addEventListener('mousemove', handleBlocksMove);
 
 document.addEventListener('mousemove', handleContainerMove);
 document.addEventListener('mouseup', () => {
     movable = false;
-    blockMovable = false;
+    handleMouseUp();
 });
