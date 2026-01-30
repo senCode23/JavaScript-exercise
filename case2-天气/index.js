@@ -22,3 +22,47 @@ barContainer.addEventListener('click',(event)=>{
     handleImgChange(bar,bars);
 })
 
+
+
+//测试
+class WidtherAndHigher {
+    constructor() {
+        this.width = window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+        this.height = window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
+    }
+
+    getWidth() {
+        const timeout = setTimeout(() => {
+            console.log(this.width);
+            clearTimeout(timeout);
+        }, 3000);
+    }
+
+    getHeight() {
+        console.log(this.height);
+    }
+} 
+
+
+
+const widtherAndHigher = new WidtherAndHigher();
+
+let scrollTimeout;
+
+window.addEventListener('scroll', () => {
+    // 清除上一个定时器
+    if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+    }
+    
+    scrollTimeout = setTimeout(() => {
+        console.log('滚动结束');
+    }, 50);
+});
+
+
+

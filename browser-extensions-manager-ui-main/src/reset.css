@@ -1,0 +1,191 @@
+/* ==========================================================================
+   Modern CSS Reset v2.0 (2025-2026 推荐)
+   平衡的、渐进增强的、开发者友好的重置方案
+   ========================================================================== */
+
+/* 1. 核心盒模型 - 必须 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. 智能边距重置 - 只重置最需要的地方 */
+body, h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+/* 3. HTML5 文档基础 */
+html {
+  /* 文本渲染优化 */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* 增强体验（可选） */
+  scroll-behavior: smooth;
+  scroll-padding-top: 1rem; /* 为固定头部留出空间 */
+}
+
+/* 4. 响应式 body 基础 */
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", 
+               "Noto Sans", "Liberation Sans", Arial, sans-serif;
+  line-height: 1.6; /* 1.5-1.7 都是舒适范围 */
+  min-height: 100dvh;
+  color: oklch(0.15 0.02 260); /* 现代色彩空间 */
+  background-color: oklch(0.99 0.01 260);
+}
+
+/* 5. 媒体元素 - 响应式 & 无间隙 */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 6. 表单控件 - 统一继承与样式 */
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  border: 1px solid transparent;
+  background-color: transparent;
+  border-radius: 0.25em; /* 轻微圆角，现代感 */
+}
+
+/* 7. 交互状态 - 可访问性优先 */
+:focus-visible {
+  outline: 2px solid oklch(0.6 0.2 250);
+  outline-offset: 2px;
+  border-radius: 0.125em;
+}
+
+/* 活动状态反馈 */
+button:active {
+  transform: translateY(1px);
+}
+
+/* 8. 列表 - 保留语义，优化间距 */
+ul, ol {
+  padding-left: 1.5em;
+}
+
+ul { list-style-type: disc; }
+ol { list-style-type: decimal; }
+
+/* 9. 链接 - 现代样式 */
+a {
+  color: oklch(0.5 0.2 250);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: oklch(0.4 0.25 250);
+  text-decoration: underline;
+}
+
+/* 10. 排版增强 */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+/* 11. 代码块基础 */
+code, kbd, samp, pre {
+  font-family: ui-monospace, "Cascadia Code", "JetBrains Mono", 
+               "SF Mono", "Roboto Mono", monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  overflow-x: auto;
+  padding: 1em;
+  background: oklch(0.95 0.02 260);
+  border-radius: 0.5em;
+}
+
+/* 12. 表格基础 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+th, td {
+  padding: 0.5em 0.75em;
+  text-align: left;
+  border-bottom: 1px solid oklch(0.9 0.02 260);
+}
+
+/* 13. 运动偏好检测 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* 但仍保留必要的交互反馈 */
+  button:active {
+    transform: none;
+  }
+}
+
+/* 14. 打印优化 */
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.9em;
+    font-weight: normal;
+  }
+  
+  pre, blockquote {
+    page-break-inside: avoid;
+  }
+  
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}
+
+/* 15. 深色模式支持（可选但推荐） */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark light;
+  }
+  
+  body {
+    color: oklch(0.9 0.02 260);
+    background-color: oklch(0.15 0.02 260);
+  }
+  
+  a {
+    color: oklch(0.7 0.2 250);
+  }
+}

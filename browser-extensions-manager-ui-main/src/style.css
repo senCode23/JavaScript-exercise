@@ -1,0 +1,148 @@
+/* 字体定义 */
+@font-face {
+    font-family: "NotoSans";
+    src: url("../assets/fonts/NotoSans-VariableFont_wdth\,wght.ttf") format("truetype");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "NotoSans";
+    src: url("../assets/fonts/NotoSans-Italic-VariableFont_wdth\,wght.ttf") format("truetype");
+    font-style: italic;
+    font-display: swap;
+}
+
+/* 根元素变量 */
+:root {
+    --primary-bg: linear-gradient(180deg, #040918 0%, #091540 100%);
+    --header-bg: #34416494;
+    --content-bg: #f0f8ff;
+    --border-radius: 12px;
+    --header-radius: 18px;
+    --spacing: 10px;
+    --gap: 50px;
+}
+
+body {
+    background: var(--primary-bg);
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    font-family: "NotoSans", system-ui, -apple-system, sans-serif;
+}
+
+.app {
+    padding: var(--spacing);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 内容容器 */
+.content {
+    margin: 0 auto;
+    padding: var(--spacing);
+    width: min(80%, 1400px); /* 添加最大宽度限制 */
+    flex: 1;
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    align-items: stretch; /* 改为拉伸对齐 */
+}
+
+/* 头部样式 */
+.header {
+    height: clamp(60px, 10vh, 100px); /* 响应式高度 */
+    border-radius: var(--header-radius);
+    background-color: var(--header-bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--spacing);
+    flex-shrink: 0; /* 防止头部被压缩 */
+}
+
+.header__logo {
+    width: 150px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: var(--spacing);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.logo-link:hover {
+    opacity: 0.9;
+}
+
+.logo-link img {
+    width: 80%;
+    height: auto;
+    max-height: 60px;
+    object-fit: contain;
+}
+
+.header__right {
+    width: 50px;
+    height: 75%; /* 相对高度更灵活 */
+    border-radius: 12px;
+    background-color: #2F354B;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.main-content {
+    flex: 1;
+    min-height: 400px;
+    border-radius: var(--border-radius);
+    background-color: var(--content-bg);
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .content {
+        width: 95%; /* 移动端增加宽度 */
+        gap: 30px; /* 移动端减小间距 */
+        padding: 8px;
+    }
+    
+    .header {
+        height: 50px;
+        padding: 0 8px;
+    }
+    
+    .header__logo {
+        width: 120px;
+    }
+    
+    .logo-link {
+        padding-left: 8px;
+    }
+    
+    .logo-link img {
+        width: 85%;
+    }
+}
+
+@media print {
+    .header {
+        background: #fff;
+        border: 1px solid #000;
+    }
+    
+    .main-content {
+        background: #fff;
+        border: 1px solid #ddd;
+    }
+}
