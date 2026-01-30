@@ -100,6 +100,12 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.header__right:active {
+    scale: 0.95;
+    background-color: #696969;
 }
 
 .main-content {
