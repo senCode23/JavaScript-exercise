@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <p>This is a test HTML file1.</p>
+        <p>This is a test HTML file2.</p>
+        <p>This is a test HTML file3.</p>
+        <p>This is a test HTML file4.</p>
+        <p>This is a test HTML file5.</p>
+    </div>
+    <input type="button" value="删除">
+    <input type="button" value="克隆">
+    <button class="replace">替换</button>
+    <button class="s_h">显示/隐藏</button>
+
+    <!--  -->
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+
+    <input type="text" placeholder="请输入...">
+
+    <div class="box" style="width: 50px; height: 50px; background-color: red;"></div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(function(){
+        // $('body').prepend('<p>Hello World!</p>');
+        const $p = $('<p>Hello World!</p>').attr('id', 'hello');
+        $($p).appendTo('body');
+
+        $('input[type="button"][value="删除"]').click(function(){
+            // $('.container p:first-of-type').remove();
+            $('div.container').empty();
+        })
+
+        $('input[type="button"][value="克隆"]').click(function(){
+            // $('.container p:first-of-type').clone().appendTo('.container');
+            const $clone = $('div.container p:first-of-type').clone();
+            $($clone).appendTo('div.container');
+        })
+
+        $('button.replace').click(function(){
+            const $newA = $('<a href="#">This is a replaced paragraph.</a>').css('color', 'red');
+            $('.container p:first-of-type').replaceWith($newA);
+        })
+
+        $('.container').each(function() {
+            // this 就是当前的 .container
+            $(this).find('p').each(function(i) {   // i 从 0 开始
+                $(this).click(function() {
+                    console.log($(this).text());
+                    console.log('width:',$(this).width());
+                    console.log('width:',$(this).css('width'));
+                    console.log('innerWidth:',$(this).innerWidth());
+                    console.log('outerWidth:',$(this).outerWidth());
+                    
+                }).css('cursor', 'pointer');
+            });
+        });
+
+        const color = ["red", "orange", "yellow", "green", "blue"];
+        $('ul li').each(function(i){
+            $(this).css('background-color', color[i]);
+            
+        })
+
+        $('div.container').find('p').each(function(i){
+            $(this).mouseenter(function(){
+                $(this).css('background-color', 'yellow');
+            })
+            .mouseleave(function(){
+                $(this).css('background-color', '');
+            })
+        })
+
+        $('input[placeholder="请输入..."]').focus(function(){
+            $(this).val('ssss').select();
+
+            console.log('正在输入...');
+        }).on('input', function(value){
+            console.log(this.value);
+        })
+
+        $(window).scroll(function(event){
+            console.log($(window).scrollTop());
+
+            console.log(event);
+            
+        })
+
+        $('.s_h').on('click', function(){
+            let flag = true;
+            if(flag){
+                $('div.container').slideDown();
+                flag = false;
+            }else{
+                $('div.container').slideUp();
+                flag = true;
+            }
+        })
+
+        $('.box').hover(function(){
+            $(this).stop(true, false)  // 清空队列，但不跳到最后
+                .animate({'width':'200px'},1000)
+                .delay(1000)
+                .animate({'height':'100px'},1000);
+        }, function(){
+            $(this).stop(true, false)
+                .animate({'width':'50px'},1000)
+                .delay(1000)
+                .animate({'height':'50px'},1000);
+        }).css('background-color', 'yellow');
+
+    })
+</script>
+
+<!-- <script>
+    const s = document.querySelector('input[type="text"]');
+</script> -->
+</html>
